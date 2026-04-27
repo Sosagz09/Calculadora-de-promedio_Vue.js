@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de Promedio Final</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <style>
+    body { background-color: #f0f2f5; }
+    .navbar-ugb { background-color: #003087; }
+    .btn-ugb { background-color: #003087; color: white; border: none; }
+    .btn-ugb:hover { background-color: #00205c; color: white; }
+    .badge-bloque { background-color: #003087 !important; min-width: 110px; font-size: 13px; padding: 8px; }
+    .badge-proyecto { background-color: #198754 !important; min-width: 110px; font-size: 13px; padding: 8px; }
+    .card-header-ugb { background-color: #003087; color: white; }
+    .resultado-box { border-left: 5px solid #003087; }
+    input.input-error { border: 2px solid #dc3545 !important; background-color: #fff5f5; }
+    input.input-ok { border: 2px solid #198754 !important; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-ugb py-2 shadow">
+  <div class="container">
+    <img src="https://estudiantes.ugb.edu.sv/img/logos/logo_blanco_horizontal.png"
+         alt="Logo UGB" height="65">
+    <span class="text-white fw-semibold ms-3 d-none d-md-inline" style="font-size:15px;">
+      Programación para la Web
+    </span>
+  </div>
+</nav>
+
+<div id="app" class="container py-5">
+
+  <div class="card shadow mx-auto" style="max-width: 580px; border-radius: 12px; overflow: hidden;">
+
+    <div class="card-header card-header-ugb py-3 text-center">
+      <h4 class="mb-0 fw-semibold">Calculadora de Promedio Final</h4>
+      <p class="mb-0 small opacity-75 mt-1">Universidad Gerardo Barrios</p>
+    </div>
+
+    <div class="card-body p-4">
+
+      <div class="alert alert-info d-flex align-items-center gap-2 py-2 mb-4" role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+        </svg>
+        <small>Ingresa notas de <strong>0 a 10</strong>. Los 3 bloques valen <strong>20%</strong> cada uno y el proyecto <strong>40%</strong>.</small>
+      </div>
+
+      <div class="mb-3 d-flex align-items-center gap-3">
+        <span class="badge badge-bloque text-center">Bloque 1<br><small>20%</small></span>
+        <div class="flex-fill">
+          <input
+            v-model.number="bloque1"
+            @input="validar('bloque1')"
+            type="number" min="0" max="10" step="0.1"
+            class="form-control form-control-lg"
+            :class="claseInput(bloque1, errores.bloque1)"
+            placeholder="Ej: 8.5">
+          <small v-if="errores.bloque1" class="text-danger">{{ errores.bloque1 }}</small>
+        </div>
+        <span class="fw-bold fs-5" :class="claseNota(bloque1)">
+          {{ bloque1 !== '' ? Number(bloque1).toFixed(1) : '—' }}
+        </span>
+      </div>
+
+      <div class="mb-3 d-flex align-items-center gap-3">
+        <span class="badge badge-bloque text-center">Bloque 2<br><small>20%</small></span>
+        <div class="flex-fill">
+          <input
+            v-model.number="bloque2"
+            @input="validar('bloque2')"
+            type="number" min="0" max="10" step="0.1"
+            class="form-control form-control-lg"
+            :class="claseInput(bloque2, errores.bloque2)"
+            placeholder="Ej: 7.0">
+          <small v-if="errores.bloque2" class="text-danger">{{ errores.bloque2 }}</small>
+        </div>
+        <span class="fw-bold fs-5" :class="claseNota(bloque2)">
+          {{ bloque2 !== '' ? Number(bloque2).toFixed(1) : '—' }}
+        </span>
+      </div>
+
+      <div class="mb-3 d-flex align-items-center gap-3">
+        <span class="badge badge-bloque text-center">Bloque 3<br><small>20%</small></span>
+        <div class="flex-fill">
+          <input
+            v-model.number="bloque3"
+            @input="validar('bloque3')"
+            type="number" min="0" max="10" step="0.1"
+            class="form-control form-control-lg"
+            :class="claseInput(bloque3, errores.bloque3)"
+            placeholder="Ej: 9.0">
+          <small v-if="errores.bloque3" class="text-danger">{{ errores.bloque3 }}</small>
+        </div>
+        <span class="fw-bold fs-5" :class="claseNota(bloque3)">
+          {{ bloque3 !== '' ? Number(bloque3).toFixed(1) : '—' }}
+        </span>
+      </div>
+
+      <div class="mb-4 d-flex align-items-center gap-3">
+        <span class="badge badge-proyecto text-center">Proyecto<br><small>40%</small></span>
+        <div class="flex-fill">
+          <input
+            v-model.number="proyecto"
+            @input="validar('proyecto')"
+            type="number" min="0" max="10" step="0.1"
+            class="form-control form-control-lg"
+            :class="claseInput(proyecto, errores.proyecto)"
+            placeholder="Ej: 8.0">
+          <small v-if="errores.proyecto" class="text-danger">{{ errores.proyecto }}</small>
+        </div>
+        <span class="fw-bold fs-5" :class="claseNota(proyecto)">
+          {{ proyecto !== '' ? Number(proyecto).toFixed(1) : '—' }}
+        </span>
+      </div>
+
+      <div class="d-grid gap-2 mb-3">
+        <button @click="calcular" class="btn btn-ugb btn-lg fw-semibold"
+          :disabled="!completo || hayErrores">
+          Calcular promedio final
+        </button>
+        <button @click="limpiar" class="btn btn-outline-danger btn-lg fw-semibold">
+          Limpiar campos
+        </button>
+      </div>
+
+      <div v-if="!completo" class="text-center text-muted small mb-2">
+        Completa todos los campos para habilitar el cálculo
+      </div>
+
+      <div v-if="mostrarResultado" class="card resultado-box mt-3"
+           :class="promedio >= 6 ? 'border-success' : 'border-danger'">
+        <div class="card-body">
+          <p class="text-muted small mb-1">Promedio ponderado final</p>
+          <h1 class="fw-bold mb-1" :class="promedio >= 6 ? 'text-success' : 'text-danger'">
+            {{ promedio.toFixed(2) }}
+          </h1>
+          <span class="badge fs-6" :class="promedio >= 6 ? 'bg-success' : 'bg-danger'">
+            {{ estadoFinal }}
+          </span>
+          <hr>
+          <p class="text-muted small mb-2">Desglose de contribución por nota:</p>
+          <div class="row text-center g-2">
+            <div class="col-3">
+              <div class="card bg-light py-2">
+                <small class="text-muted">Bloque 1</small>
+                <strong>{{ (bloque1*0.2).toFixed(2) }}</strong>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="card bg-light py-2">
+                <small class="text-muted">Bloque 2</small>
+                <strong>{{ (bloque2*0.2).toFixed(2) }}</strong>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="card bg-light py-2">
+                <small class="text-muted">Bloque 3</small>
+                <strong>{{ (bloque3*0.2).toFixed(2) }}</strong>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="card bg-light py-2">
+                <small class="text-muted">Proyecto</small>
+                <strong>{{ (proyecto*0.4).toFixed(2) }}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="card-footer text-center text-muted small py-2">
+      Daniel Sosa &mdash; ISNP066724
+    </div>
+
+  </div>
+</div>
+
+<script>
+const { createApp } = Vue
+createApp({
+  data() {
+    return {
+      bloque1: '', bloque2: '', bloque3: '', proyecto: '',
+      promedio: 0, mostrarResultado: false,
+      errores: { bloque1: '', bloque2: '', bloque3: '', proyecto: '' }
+    }
+  },
+  computed: {
+    completo() {
+      return [this.bloque1, this.bloque2, this.bloque3, this.proyecto].every(v => v !== '')
+    },
+    hayErrores() {
+      return Object.values(this.errores).some(e => e !== '')
+    },
+    estadoFinal() {
+      return this.promedio >= 6 ? 'Aprobado ✓' : 'Reprobado ✗'
+    }
+  },
+  methods: {
+    validar(campo) {
+      const val = this[campo]
+      if (val === '' || val === null) {
+        this.errores[campo] = ''
+      } else if (val > 10) {
+        this.errores[campo] = 'La nota no puede ser mayor a 10'
+        this[campo] = 10
+      } else if (val < 0) {
+        this.errores[campo] = 'La nota no puede ser menor a 0'
+        this[campo] = 0
+      } else {
+        this.errores[campo] = ''
+      }
+      this.mostrarResultado = false
+    },
+    claseInput(val, error) {
+      if (val === '' || val === null) return ''
+      if (error) return 'input-error'
+      return 'input-ok'
+    },
+    claseNota(val) {
+      if (val === '' || val === null) return 'text-muted'
+      if (val >= 8) return 'text-success'
+      if (val >= 6) return 'text-primary'
+      return 'text-danger'
+    },
+    calcular() {
+      this.promedio = (this.bloque1*0.2) + (this.bloque2*0.2) + (this.bloque3*0.2) + (this.proyecto*0.4)
+      this.mostrarResultado = true
+    },
+    limpiar() {
+      this.bloque1 = ''
+      this.bloque2 = ''
+      this.bloque3 = ''
+      this.proyecto = ''
+      this.promedio = 0
+      this.mostrarResultado = false
+      this.errores = { bloque1: '', bloque2: '', bloque3: '', proyecto: '' }
+    }
+  }
+}).mount('#app')
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
