@@ -57,5 +57,3 @@ git clone https://github.com/tu-usuario/calculadora-promedio-ugb.git
 👉 [Ver aplicación en Stackblitz](https://stackblitz.com/edit/stackblitz-starters-jxmt5jfp?file=index.html)
 
 ---
-
-## 📐 Fórmula aplicada
