@@ -1,10 +1,10 @@
-# 📊 Calculadora de Promedio Final — UGB
+# Calculadora de Promedio Final — UGB
 
 Aplicación web de una sola página (SPA) desarrollada con **Vue.js 3** y **Bootstrap 5** para calcular el promedio ponderado final del ciclo académico de la Universidad Gerardo Barrios.
 
 ---
 
-## 🎯 ¿Qué hace?
+## ¿Qué hace?
 
 Permite ingresar las calificaciones obtenidas en los 3 bloques y el proyecto final, aplicando los porcentajes correspondientes:
 
@@ -17,7 +17,7 @@ Permite ingresar las calificaciones obtenidas en los 3 bloques y el proyecto fin
 
 ---
 
-## ✨ Características
+## Características
 
 - ✅ Cálculo automático del promedio ponderado
 - ✅ Validación en tiempo real (notas entre 0 y 10)
@@ -29,7 +29,7 @@ Permite ingresar las calificaciones obtenidas en los 3 bloques y el proyecto fin
 
 ---
 
-## 🛠️ Tecnologías utilizadas
+## Tecnologías utilizadas
 
 - [Vue.js 3](https://vuejs.org/) — Framework progresivo de JavaScript
 - [Bootstrap 5](https://getbootstrap.com/) — Framework CSS para diseño responsivo
@@ -39,7 +39,7 @@ Permite ingresar las calificaciones obtenidas en los 3 bloques y el proyecto fin
 
 ---
 
-## 🚀 ¿Cómo usarlo?
+## ¿Cómo usarlo?
 
 1. Clona el repositorio:
 ```bash
@@ -52,8 +52,8 @@ git clone https://github.com/tu-usuario/calculadora-promedio-ugb.git
 
 ---
 
-## 🌐 Demo en vivo
+## Demo en vivo
 
-👉 [Ver aplicación en Stackblitz](https://stackblitz.com/edit/stackblitz-starters-jxmt5jfp?file=index.html)
+[Ver aplicación en Stackblitz](https://stackblitz.com/edit/stackblitz-starters-jxmt5jfp?file=index.html)
 
 ---
